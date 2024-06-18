@@ -15,4 +15,9 @@ class AudioReader:
             self.yt = YouTube(self.yt_url)
         
         print(self.yt.title)
+        progressive_streams = self.yt.streams.filter(progressive=True)
+
+
+        stream = progressive_streams.get_by_resolution("720p")
+        stream.download(output_path="../video_cache")
 
