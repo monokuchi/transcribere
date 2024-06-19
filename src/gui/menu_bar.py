@@ -1,43 +1,27 @@
 
-import sys
+from PySide6.QtCore import Slot
+from PySide6.QtGui import QAction
+from PySide6.QtWidgets import QMenuBar
 
-from PySide6.QtCore import Qt, Slot, QSize
-from PySide6.QtGui import QGuiApplication, QAction, QFont
-from PySide6.QtWidgets import (
-    QApplication, 
-    QMainWindow, 
-    QPushButton,
-    QLabel,
-    QToolBar,
-    QStatusBar
-)
 
-        
 
-class MainWindow(QMainWindow):
+class MenuBar(QMenuBar):
     def __init__(self) -> None:
         super().__init__()
 
-        self.setWindowTitle("transcribere")
-        # Set main window initial startup size to be 40% of avaliable desktop resolution
-        self.resize(QGuiApplication.primaryScreen().availableGeometry().size() * 0.4)
+        self._setup_actions()
+        self._connect_actions()
 
-        # Create our QActions
-        self._setup_Actions()
-        self._connect_Actions()
-
-        # Initialize UI components of main window
-        self._setup_UI()
+        self._setup_menus()
 
 
-
-    def _setup_Actions(self) -> None:
+    
+    def _setup_actions(self) -> None:
         # File menu actions
         self.open_file_action = QAction("&Open File...", self)
         self.save_action = QAction("&Save", self)
         self.save_as_action = QAction("&Save As...", self)
         self.file_menu_actions = [self.open_file_action, self.save_action, self.save_as_action]
-
         ## Open Recent sub-menu actions
         self.more_action = QAction("&More...", self)
         self.open_recent_actions = [self.more_action]
@@ -50,14 +34,12 @@ class MainWindow(QMainWindow):
         # Help menu actions
         self.about_action = QAction("&About...", self)
         self.help_menu_actions = [self.about_action]
-
-
-    def _connect_Actions(self) -> None:
+        
+    def _connect_actions(self) -> None:
         # File menu connections
         self.open_file_action.triggered.connect(self._slot_on_open_file)
         self.save_action.triggered.connect(self._slot_on_save)
         self.save_as_action.triggered.connect(self._slot_on_save_as)
-
         ## Open Recent sub-menu connections
         self.more_action.triggered.connect(self._slot_on_more)
 
@@ -68,85 +50,54 @@ class MainWindow(QMainWindow):
         # Help menu connections
         self.about_action.triggered.connect(self._slot_on_about)
 
-
-
-    def _setup_UI(self) -> None:
-        # Main function to setup all UI elements
-        self._setup_UI_Playback_Screen()
-        self._setup_UI_MenuBar()
-        
-
-    def _setup_UI_Playback_Screen(self) -> None:
-        label = QLabel("Drag in audio file to start transcribing!")
-        label.setFont(QFont("Monospace", 26))
-        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.setCentralWidget(label)
-
-
-    def _setup_UI_MenuBar(self) -> None:
-        menu = self.menuBar()
-        
-        file_menu = menu.addMenu("&File")
+    def _setup_menus(self) -> None:
+        file_menu = self.addMenu("&File")
         file_menu.addActions(self.file_menu_actions)
         open_recent_menu = file_menu.addMenu("Open Recent")
         open_recent_menu.addActions(self.open_recent_actions)
 
-        edit_menu = menu.addMenu("&Edit")
+        edit_menu = self.addMenu("&Edit")
         edit_menu.addActions(self.edit_menu_actions)
 
-        help_menu = menu.addMenu("&Help")
+        help_menu = self.addMenu("&Help")
         help_menu.addActions(self.help_menu_actions)
 
 
 
-
     ###### Slots ######
 
-    # File Menu Slots
+    # File menu slots
+    @Slot()
     def _slot_on_open_file(self) -> None:
         print("Clicked on open file")
 
+    @Slot()
     def _slot_on_save(self) -> None:
         print("Clicked on save")
 
+    @Slot()
     def _slot_on_save_as(self) -> None:
         print("Clicked on save as")
 
-    ## Open Recent Menu Slots
+    ## Open Recent menu slots
+    @Slot()
     def _slot_on_more(self) -> None:
         print("Clicked on more")
 
 
-    # Edit Menu Slots
+    # Edit menu slots
+    @Slot()
     def _slot_on_undo(self) -> None:
         print("Clicked on undo")
 
+    @Slot()
     def _slot_on_redo(self) -> None:
         print("Clicked on redo")
         
 
-    # Help Menu Slots
+    # Help menu slots
+    @Slot()
     def _slot_on_about(self) -> None:
         print("Clicked on about")
     
     ###### Slots ######
-
-        
-
-
-
-
-class App(QApplication):
-
-    def __init__(self) -> None:
-        super().__init__()
-
-        # Main Window
-        self.window = MainWindow()
-        self.window.showMaximized()
-
-
-
-
-
-
