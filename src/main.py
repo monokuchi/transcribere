@@ -6,7 +6,7 @@ from gui.main_gui import App
 
 def main() -> None:
     audio_reader = AudioReader("https://www.youtube.com/watch?v=WZYHvEF84NQ")
-    # audio_reader.download_yt_url()
+    audio_reader.download_yt_url()
     
 
 

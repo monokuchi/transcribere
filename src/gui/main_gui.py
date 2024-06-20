@@ -23,7 +23,6 @@ class MainWindow(QMainWindow):
 
     def _setup_UI(self) -> None:
         # Main function to setup all UI elements
-        # self.setCentralWidget(QLabel("wifhjwifjw"))
         self.setCentralWidget(MediaPlayer())
         self.setMenuBar(MenuBar())
         
